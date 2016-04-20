@@ -1,0 +1,41 @@
+private User login(User u) {//定义（返回User的）方法login（）;传入的参数为u
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        User user = null;
+         try {
+            Class. forName("com.mysql.jdbc.Driver");//加载驱动
+            conn = DriverManager. getConnection(//创建连接
+                     "jdbc:mysql://127.0.0.1:3306/cost" , "root" , "123456");
+            String sql = "select * from  user where username=?";//写String类型的SQL语句
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, u.getUsername());//给问号赋值
+            rs = ps.executeQuery();//查询
+             while (rs.next()) {//查询结果
+                user = new User();
+                user.setUsername(rs.getString( "username"));
+                user.setPassword(rs.getString( "password"));
+                user.setRoles(rs.getString( "roles"));
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {//关闭
+             if (rs != null ) {
+                 try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+             if (conn != null) {
+                 try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+         return user;
+    }
