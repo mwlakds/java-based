@@ -1,4 +1,4 @@
-private User login(User u) {//定义（返回User的）方法login（）;传入的参数为u
+private User login(User u) {    //定义（返回User的）方法login（）;传入的参数为u
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
